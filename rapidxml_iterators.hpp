@@ -2,7 +2,7 @@
 #define RAPIDXML_ITERATORS_HPP_INCLUDED
 
 // Copyright (C) 2006, 2009 Marcin Kalicinski
-// Version 1.13
+// Version 1.13+
 // Revision $DateTime: 2009/05/15 23:02:39 $
 //! \file rapidxml_iterators.hpp This file contains rapidxml iterators
 
@@ -15,19 +15,14 @@ namespace rapidxml
     template<class Ch>
     class node_iterator
     {
+        xml_node<Ch> *m_node = nullptr;
 
     public:
-
-        typedef typename xml_node<Ch> value_type;
-        typedef typename xml_node<Ch> &reference;
-        typedef typename xml_node<Ch> *pointer;
-        typedef std::ptrdiff_t difference_type;
-        typedef std::bidirectional_iterator_tag iterator_category;
-
-        node_iterator()
-            : m_node(0)
-        {
-        }
+        using value_type = xml_node<Ch>;
+        using reference = xml_node<Ch>&;
+        using pointer = xml_node<Ch>*;
+        using difference_type = std::ptrdiff_t;
+        using iterator_category = std::bidirectional_iterator_tag;
 
         node_iterator(xml_node<Ch> *node)
             : m_node(node->first_node())
@@ -83,30 +78,20 @@ namespace rapidxml
         {
             return m_node != rhs.m_node;
         }
-
-    private:
-
-        xml_node<Ch> *m_node;
-
     };
 
     //! Iterator of child attributes of xml_node
     template<class Ch>
     class attribute_iterator
     {
+        xml_attribute<Ch> *m_attribute = nullptr;
 
     public:
-
-        typedef typename xml_attribute<Ch> value_type;
-        typedef typename xml_attribute<Ch> &reference;
-        typedef typename xml_attribute<Ch> *pointer;
-        typedef std::ptrdiff_t difference_type;
-        typedef std::bidirectional_iterator_tag iterator_category;
-
-        attribute_iterator()
-            : m_attribute(0)
-        {
-        }
+        using value_type = xml_attribute<Ch>;
+        using reference = xml_attribute<Ch>&;
+        using pointer = xml_attribute<Ch>*;
+        using difference_type = std::ptrdiff_t;
+        using iterator_category = std::bidirectional_iterator_tag;
 
         attribute_iterator(xml_node<Ch> *node)
             : m_attribute(node->first_attribute())
@@ -162,11 +147,6 @@ namespace rapidxml
         {
             return m_attribute != rhs.m_attribute;
         }
-
-    private:
-
-        xml_attribute<Ch> *m_attribute;
-
     };
 
 }

@@ -2,7 +2,7 @@
 #define RAPIDXML_UTILS_HPP_INCLUDED
 
 // Copyright (C) 2006, 2009 Marcin Kalicinski
-// Version 1.13
+// Version 1.13+
 // Revision $DateTime: 2009/05/15 23:02:39 $
 //! \file rapidxml_utils.hpp This file contains high-level rapidxml utilities that can be useful
 //! in certain simple scenarios. They should probably not be used if maximizing performance is the main objective.
@@ -20,9 +20,9 @@ namespace rapidxml
     template<class Ch = char>
     class file
     {
+        std::vector<Ch> m_data;   // File data
 
     public:
-
         //! Loads file into the memory. Data will be automatically destroyed by the destructor.
         //! \param filename Filename to load.
         file(const char *filename)
@@ -42,7 +42,7 @@ namespace rapidxml
 
             // Load data and add terminating 0
             m_data.resize(size + 1);
-            stream.read(&m_data.front(), static_cast<streamsize>(size));
+            stream.read(&m_data.front(), (streamsize)size);
             m_data[size] = 0;
         }
 
@@ -76,24 +76,20 @@ namespace rapidxml
 
         //! Gets file data size.
         //! \return Size of file data, in characters.
-        std::size_t size() const
+        size_t size() const
         {
             return m_data.size();
         }
-
-    private:
-
-        std::vector<Ch> m_data;   // File data
 
     };
 
     //! Counts children of node. Time complexity is O(n).
     //! \return Number of children of node
     template<class Ch>
-    inline std::size_t count_children(xml_node<Ch> *node)
+    size_t count_children(xml_node<Ch> *node)
     {
         xml_node<Ch> *child = node->first_node();
-        std::size_t count = 0;
+        size_t count = 0;
         while (child)
         {
             ++count;
@@ -105,10 +101,10 @@ namespace rapidxml
     //! Counts attributes of node. Time complexity is O(n).
     //! \return Number of attributes of node
     template<class Ch>
-    inline std::size_t count_attributes(xml_node<Ch> *node)
+    size_t count_attributes(xml_node<Ch> *node)
     {
         xml_attribute<Ch> *attr = node->first_attribute();
-        std::size_t count = 0;
+        size_t count = 0;
         while (attr)
         {
             ++count;
